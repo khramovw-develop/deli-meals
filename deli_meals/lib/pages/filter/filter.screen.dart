@@ -1,3 +1,4 @@
+import 'package:deli_meals/pages/filter/switch_tile.widget.dart';
 import 'package:deli_meals/widgets/main_drawer.widget.dart';
 import 'package:flutter/material.dart';
 
@@ -31,30 +32,36 @@ class _FilterScreenState extends State<FilterScreen> {
           ),
           Expanded(
             child: ListView(
-              children: <SwitchListTile>[
-                buildSwitchListTile('Gluten-free', 'Only include gluten-free meals.', _glutenFree, (newValue) => setState(() => _glutenFree = newValue)),
-                buildSwitchListTile('Vegetarian', 'Only include vegetarian meals.', _vegetarian, (newValue) => setState(() => _vegetarian = newValue)),
-                buildSwitchListTile('Vegan', 'Only include vegan meals.', _vegan, (newValue) => setState(() => _vegan = newValue)),
-                buildSwitchListTile('Lactose-free', 'Only include lactose-free meals.', _lactoseFree, (newValue) => setState(() => _lactoseFree = newValue)),
+              children: <SwitchTile>[
+                SwitchTile(
+                  title: 'Gluten-free',
+                  subtitle: 'Only include gluten-free meals.',
+                  currentValue: _glutenFree,
+                  changedValue: (newValue) => setState(() => _glutenFree = newValue),
+                ),
+                SwitchTile(
+                  title: 'Vegetarian',
+                  subtitle: 'Only include vegetarian meals.',
+                  currentValue: _vegetarian,
+                  changedValue: (newValue) => setState(() => _vegetarian = newValue),
+                ),
+                SwitchTile(
+                  title: 'Vegan',
+                  subtitle: 'Only include vegan meals.',
+                  currentValue: _vegan,
+                  changedValue: (newValue) => setState(() => _vegan = newValue),
+                ),
+                SwitchTile(
+                  title: 'Lactose-free',
+                  subtitle: 'Only include lactose-free meals.',
+                  currentValue: _lactoseFree,
+                  changedValue: (newValue) => setState(() => _lactoseFree = newValue),
+                ),
               ],
             ),
           ),
         ],
       ),
-    );
-  }
-
-  SwitchListTile buildSwitchListTile(
-    String title,
-    String subtitle,
-    bool currentValue,
-    Function changedValue,
-  ) {
-    return SwitchListTile(
-      title: Text(title),
-      subtitle: Text(subtitle),
-      value: currentValue,
-      onChanged: (val) => changedValue(val),
     );
   }
 }
