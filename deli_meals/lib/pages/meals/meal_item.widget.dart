@@ -5,23 +5,22 @@ import 'meals.model.dart';
 
 class MealItem extends StatelessWidget {
   final Meal meal;
+  final Function removeItem;
 
   const MealItem({
     Key? key,
     required this.meal,
+    required this.removeItem,
   }) : super(key: key);
 
   String get complexityText {
     switch (meal.complexity) {
       case Complexity.Simple:
         return 'Simple';
-        break;
       case Complexity.Challenging:
         return 'Challenging';
-        break;
       case Complexity.Hard:
         return 'Hard';
-        break;
       default:
         return 'Unknown';
     }
@@ -31,20 +30,22 @@ class MealItem extends StatelessWidget {
     switch (meal.affordability) {
       case Affordability.Affordable:
         return 'Affordable';
-        break;
       case Affordability.Luxurious:
         return 'Luxurious';
-        break;
       case Affordability.Pricey:
         return 'Pricey';
-        break;
       default:
         return 'Unknown';
     }
   }
 
   void selectMeal(ctx) {
-    Navigator.pushNamed(ctx, MealDetailScreen.routName, arguments: meal.id);
+    Navigator.pushNamed(ctx, MealDetailScreen.routName, arguments: meal.id).then((value) => {
+          if (value != null)
+            {
+              removeItem(value),
+            }
+        });
   }
 
   @override

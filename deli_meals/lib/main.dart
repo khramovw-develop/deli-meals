@@ -2,14 +2,40 @@ import 'package:deli_meals/pages/categories/categories.screen.dart';
 import 'package:deli_meals/pages/categories/favorite/favorite.screen.dart';
 import 'package:deli_meals/pages/filter/filter.screen.dart';
 import 'package:deli_meals/pages/meals/detail/meal_detail.screen.dart';
+import 'package:deli_meals/pages/meals/meals.data.dart';
+import 'package:deli_meals/pages/meals/meals.model.dart';
 import 'package:deli_meals/pages/meals/meals.screen.dart';
 import 'package:deli_meals/pages/categories/tabs.widget.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(const MyApp());
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Map<String, bool> _filters = {
+    'gluten': false,
+    'lactose': false,
+    'vegan': false,
+    'vegetarian': false,
+  };
+
+  List<Meal> _availableMeals = DUMMY_MEALS;
+
+  void _setFilters(Map<String, bool> filterData) {
+    setState(() {
+      _filters = filterData;
+
+      _availableMeals = DUMMY_MEALS.where((meal) {
+        return true;
+      }).toList();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

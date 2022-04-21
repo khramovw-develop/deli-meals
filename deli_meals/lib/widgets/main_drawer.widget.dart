@@ -17,16 +17,16 @@ class MainDrawerWidget extends StatelessWidget {
             title: const Text('Cooking now!'),
           ),
           const SizedBox(height: 10),
-          MainDrawerListTile(
+          const MainDrawerListTile(
             title: 'Meals',
             icon: Icons.restaurant,
-            onTap: () => Navigator.of(context).pushNamed(TabsScreenWidget.routName),
+            routName: TabsScreenWidget.routName,
           ),
           const Divider(endIndent: 20, indent: 20),
-          MainDrawerListTile(
+          const MainDrawerListTile(
             title: 'Filter',
             icon: Icons.settings,
-            onTap: () => Navigator.of(context).pushNamed(FilterScreen.routName),
+            routName: FilterScreen.routName,
           ),
         ],
       ),

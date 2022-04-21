@@ -1,4 +1,3 @@
-import 'package:deli_meals/pages/meals/meals.model.dart';
 import 'package:flutter/material.dart';
 import '../meals.data.dart';
 
@@ -47,9 +46,7 @@ class MealDetailScreen extends StatelessWidget {
               ListView.builder(
                 itemCount: selectedMeal.ingredients.length,
                 itemBuilder: (BuildContext ctx, int index) => ListTile(
-                  leading: CircleAvatar(
-                    child: Text('${index + 1}'),
-                  ),
+                  leading: CircleAvatar(child: Text('${index + 1}')),
                   title: Text(selectedMeal.steps[index]),
                 ),
               ),
@@ -57,10 +54,16 @@ class MealDetailScreen extends StatelessWidget {
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.delete),
+        onPressed: () {
+          Navigator.of(context).pop(mealId);
+        },
+      ),
     );
   }
 
-  Container buildContainer(BuildContext context, Widget child) {
+  Container buildContainer(BuildContext context, ListView child) {
     return Container(
       width: double.infinity,
       height: MediaQuery.of(context).size.height * 0.3,
@@ -81,10 +84,7 @@ class MealDetailScreen extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            text,
-            style: Theme.of(context).textTheme.headline1,
-          ),
+          Text(text, style: Theme.of(context).textTheme.headline1),
         ],
       ),
     );

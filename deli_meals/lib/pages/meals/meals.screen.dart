@@ -3,27 +3,56 @@ import 'package:flutter/material.dart';
 import 'meals.data.dart';
 import 'meals.model.dart';
 
-class MealsScreen extends StatelessWidget {
+class MealsScreen extends StatefulWidget {
   static const routName = '/meals';
   const MealsScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final routesArgs = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
-    final categoryTitle = routesArgs['title'];
-    final categoryColor = routesArgs['color'];
-    final categoryId = routesArgs['id'];
-    final categoryMeals = DUMMY_MEALS.where((Meal meal) => meal.categories.contains(categoryId)).toList();
+  State<MealsScreen> createState() => _MealsScreenState();
+}
 
+class _MealsScreenState extends State<MealsScreen> {
+  late String _categoryTitle;
+  late Color _categoryColor;
+  late List<Meal> displayedMeals;
+  bool _loadedInitData = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (!_loadedInitData) {
+      final routesArgs = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+      _categoryTitle = routesArgs['title'];
+      _categoryColor = routesArgs['color'];
+      final categoryId = routesArgs['id'];
+      displayedMeals = DUMMY_MEALS.where((Meal meal) => meal.categories.contains(categoryId)).toList();
+      _loadedInitData = true;
+    }
+    super.didChangeDependencies();
+  }
+
+  void _removeMeal(String mealId) {
+    setState(() {
+      displayedMeals.removeWhere((meal) => meal.id == mealId);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(categoryTitle),
-        backgroundColor: categoryColor,
+        title: Text(_categoryTitle),
+        backgroundColor: _categoryColor,
       ),
       body: Center(
         child: ListView.builder(
-          itemBuilder: (ctx, index) => MealItem(meal: categoryMeals[index]),
-          itemCount: categoryMeals.length,
+          itemBuilder: (ctx, index) => MealItem(meal: displayedMeals[index], removeItem: _removeMeal),
+          itemCount: displayedMeals.length,
         ),
       ),
     );
