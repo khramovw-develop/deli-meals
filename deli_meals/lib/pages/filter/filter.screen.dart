@@ -4,22 +4,50 @@ import 'package:flutter/material.dart';
 
 class FilterScreen extends StatefulWidget {
   static const routName = '/filter';
-  const FilterScreen({Key? key}) : super(key: key);
+
+  final Map<String, bool> currentFilters;
+  final Function saveFilters;
+
+  const FilterScreen(this.currentFilters, this.saveFilters);
 
   @override
   State<FilterScreen> createState() => _FilterScreenState();
 }
 
 class _FilterScreenState extends State<FilterScreen> {
-  bool _glutenFree = false;
-  bool _vegetarian = false;
-  bool _vegan = false;
-  bool _lactoseFree = false;
+  late bool _glutenFree = false;
+  late bool _vegetarian = false;
+  late bool _vegan = false;
+  late bool _lactoseFree = false;
+
+  @override
+  void initState() {
+    _glutenFree = widget.currentFilters['gluten'] as bool;
+    _vegetarian = widget.currentFilters['vegetarian'] as bool;
+    _vegan = widget.currentFilters['vegan'] as bool;
+    _lactoseFree = widget.currentFilters['lactose'] as bool;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Filter')),
+      appBar: AppBar(
+        title: const Text('Filter'),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.save),
+            onPressed: () {
+              widget.saveFilters({
+                'gluten': _glutenFree,
+                'lactose': _lactoseFree,
+                'vegan': _vegan,
+                'vegetarian': _vegetarian,
+              });
+            },
+          ),
+        ],
+      ),
       drawer: const MainDrawerWidget(),
       body: Column(
         children: [
